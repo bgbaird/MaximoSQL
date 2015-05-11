@@ -1,0 +1,25 @@
+declare @appName varchar(12)
+set @appName = 'ASSET'
+
+SELECT cg.app,
+cg.optionname,
+cg.groupname,
+cg.groupseq,
+cc.conditionnum, 
+cc.conditionseq,
+cp.conditionresult,
+cp.property,
+cp.propertyvalue,
+c.description,
+c.type
+
+
+FROM ctrlcondition cc
+                JOIN ctrlgroup cg ON cg.ctrlgroupid=cc.ctrlgroupid
+                JOIN condition con ON con.conditionnum=cc.conditionnum
+                LEFT JOIN ctrlcondprop cp ON cc.ctrlconditionid = cp.ctrlconditionid
+                LEFT JOIN condition c ON cc.conditionnum = c.conditionnum
+WHERE cg.app = @appName
+
+
+ORDER BY 2,4,6
